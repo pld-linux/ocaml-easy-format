@@ -52,16 +52,16 @@ tej biblioteki.
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/{easy-format,stublibs}
-cp -p *.cm[ixa]* $RPM_BUILD_ROOT%{_libdir}/ocaml/easy-format
+install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/{%{module},stublibs}
+cp -p *.cm[ixa]* $RPM_BUILD_ROOT%{_libdir}/ocaml/%{module}
 
-install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/easy-format
-cat > $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/easy-format/META <<EOF
+install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/%{module}
+cat > $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/%{module}/META <<EOF
 requires = ""
 version = "%{version}"
-directory = "+easy-format"
-archive(byte) = "easy-format.cma"
-archive(native) = "easy-format.cmxa"
+directory = "+%{module}"
+archive(byte) = "%{module}.cma"
+archive(native) = "%{module}.cmxa"
 linkopts = ""
 EOF
 
@@ -71,6 +71,6 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %doc README Changes LICENSE *.mli
-%dir %{_libdir}/ocaml/easy-format
-%{_libdir}/ocaml/easy-format/*.cm[ixa]*
-%{_libdir}/ocaml/site-lib/easy-format
+%dir %{_libdir}/ocaml/%{module}
+%{_libdir}/ocaml/%{module}/*.cm[ixa]*
+%{_libdir}/ocaml/site-lib/%{module}
