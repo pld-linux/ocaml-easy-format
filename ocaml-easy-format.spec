@@ -2,20 +2,21 @@
 # Conditional build:
 %bcond_without	opt		# build opt
 
-%define		pkgname	easy-format
-%define		debug_package	%{nil}
+%define		module	easy-format
 Summary:	easy(ier) pretty printing for OCaml
-Name:		ocaml-%{pkgname}
+Name:		ocaml-%{module}
 Version:	1.0.1
 Release:	1
 License:	BSD
 Group:		Libraries
-Source0:	easy-format-%{version}.tar.gz
+Source0:	http://mjambon.com/releases/easy-format/%{module}-%{version}.tar.gz
 # Source0-md5:	ecaf5d060f7cf8961631ab319e40677c
 URL:		http://mjambon.com/easy-format.html
 BuildRequires:	ocaml >= 3.04-7
 %requires_eq	ocaml-runtime
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		debug_package	%{nil}
 
 %description
 This module offers a simplified interface to the Format module of the
@@ -43,7 +44,7 @@ Pakiet ten zawiera pliki niezbędne do tworzenia programów używających
 tej biblioteki.
 
 %prep
-%setup -q -n %{pkgname}-%{version}
+%setup -q -n %{module}-%{version}
 
 %build
 %{__make} -j1 all %{?with_opt:opt} \
