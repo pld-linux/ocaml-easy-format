@@ -62,7 +62,6 @@ install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/%{module}
 mv $OCAMLFIND_DESTDIR/%{module}/META \
 	$RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/%{module}
 cat <<EOF >> $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/%{module}/META
-version = "%{version}"
 directory="+%{module}"
 EOF
 
