@@ -52,18 +52,18 @@ tej biblioteki.
 
 %install
 rm -rf $RPM_BUILD_ROOT
+export OCAMLFIND_DESTDIR=$RPM_BUILD_ROOT%{_libdir}/ocaml
+install -d $OCAMLFIND_DESTDIR $OCAMLFIND_DESTDIR/stublibs
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/{%{module},stublibs}
-cp -p *.cm[ixa]* $RPM_BUILD_ROOT%{_libdir}/ocaml/%{module}
-
+# move to dir pld ocamlfind looks
 install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/%{module}
-cat > $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/%{module}/META <<EOF
-requires = ""
+mv $OCAMLFIND_DESTDIR/%{module}/META \
+	$RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/%{module}
+cat <<EOF >> $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/%{module}/META
 version = "%{version}"
-directory = "+%{module}"
-archive(byte) = "%{module}.cma"
-archive(native) = "%{module}.cmxa"
-linkopts = ""
+directory="+%{module}"
 EOF
 
 %clean
@@ -71,7 +71,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%doc README Changes LICENSE *.mli
+%doc README Changes LICENSE
 %dir %{_libdir}/ocaml/%{module}
 %{_libdir}/ocaml/%{module}/*.cm[xi]
+%{_libdir}/ocaml/%{module}/*.cmo
+%{_libdir}/ocaml/%{module}/*.mli
+%if %{with opt}
+%{_libdir}/ocaml/%{module}/*.o
+%endif
 %{_libdir}/ocaml/site-lib/%{module}
