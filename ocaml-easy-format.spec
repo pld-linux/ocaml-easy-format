@@ -5,12 +5,12 @@
 %define		module	easy-format
 Summary:	easy(ier) pretty printing for OCaml
 Name:		ocaml-%{module}
-Version:	1.0.1
+Version:	1.0.2
 Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	http://mjambon.com/releases/easy-format/%{module}-%{version}.tar.gz
-# Source0-md5:	ecaf5d060f7cf8961631ab319e40677c
+# Source0-md5:	82f6db85477831cab11e4cfe80321225
 URL:		http://mjambon.com/easy-format.html
 BuildRequires:	ocaml >= 3.04-7
 %requires_eq	ocaml-runtime
