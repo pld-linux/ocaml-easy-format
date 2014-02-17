@@ -70,7 +70,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%doc README Changes LICENSE
+%doc README.md Changes LICENSE
 %dir %{_libdir}/ocaml/%{module}
 %{_libdir}/ocaml/%{module}/*.cm[xi]
 %{_libdir}/ocaml/%{module}/*.cmo
