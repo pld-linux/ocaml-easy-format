@@ -68,14 +68,18 @@ EOF
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%files
+%defattr(644,root,root,755)
+%dir %{_libdir}/ocaml/%{module}
+%{_libdir}/ocaml/%{module}/*.cmxs
+%{_libdir}/ocaml/site-lib/%{module}
+
 %files devel
 %defattr(644,root,root,755)
 %doc README.md Changes LICENSE
-%dir %{_libdir}/ocaml/%{module}
 %{_libdir}/ocaml/%{module}/*.cm[xi]
 %{_libdir}/ocaml/%{module}/*.cmo
 %{_libdir}/ocaml/%{module}/*.mli
 %if %{with opt}
 %{_libdir}/ocaml/%{module}/*.o
 %endif
-%{_libdir}/ocaml/site-lib/%{module}
