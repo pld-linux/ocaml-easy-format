@@ -34,6 +34,7 @@ Summary:	easy-format binding for OCaml - development part
 Summary(pl.UTF-8):	Wiązania easy-format dla OCamla - cześć programistyczna
 Group:		Development/Libraries
 %requires_eq	ocaml
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
 This package contains files needed to develop OCaml programs using
