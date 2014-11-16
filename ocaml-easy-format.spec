@@ -6,7 +6,7 @@
 Summary:	easy(ier) pretty printing for OCaml
 Name:		ocaml-%{module}
 Version:	1.0.2
-Release:	1
+Release:	2
 License:	BSD
 Group:		Libraries
 Source0:	http://mjambon.com/releases/easy-format/%{module}-%{version}.tar.gz
