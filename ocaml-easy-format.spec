@@ -2,6 +2,10 @@
 # Conditional build:
 %bcond_without	ocaml_opt	# build opt (native code)
 
+%ifnarch %{ix86} %{x8664} arm aarch64 ppc sparc sparcv9
+%undefine	with_ocaml_opt
+%endif
+
 %define		module	easy-format
 Summary:	easy(ier) pretty printing for OCaml
 Summary(pl.UTF-8):	Łatwiejsze ładne wypisywanie dla OCamla
