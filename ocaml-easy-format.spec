@@ -1,12 +1,13 @@
 #
 # Conditional build:
-%bcond_without	opt		# build opt
+%bcond_without	ocaml_opt	# build opt (native code)
 
 %define		module	easy-format
 Summary:	easy(ier) pretty printing for OCaml
+Summary(pl.UTF-8):	Łatwiejsze ładne wypisywanie dla OCamla
 Name:		ocaml-%{module}
 Version:	1.0.2
-Release:	2
+Release:	3
 License:	BSD
 Group:		Libraries
 Source0:	http://mjambon.com/releases/easy-format/%{module}-%{version}.tar.gz
@@ -19,48 +20,68 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		debug_package	%{nil}
 
 %description
-This module offers a simplified interface to the Format module of the
-OCaml standard library. Input data must be converted into a tree using
-3 kinds of nodes: atoms, lists and labelled nodes. Each node is bound
-to its own formatting parameters and a single function call produces
-the formatted output.
+easy-format module offers a simplified interface to the Format module
+of the OCaml standard library. Input data must be converted into a
+tree using 3 kinds of nodes: atoms, lists and labelled nodes. Each
+node is bound to its own formatting parameters and a single function
+call produces the formatted output.
 
 %description -l pl.UTF-8
-Pakiet ten zawiera binaria potrzebne do uruchamiania programów
-używających tej biblioteki.
+Moduł easy-format oferuje uproszczony interfejs do modułu Format
+biblioteki standardowej OCamla. Dane wejściowe muszą być
+przekonwertowane do drzewa z użyciem trzech rodzajów węzłów: atomów,
+list oraz węzłów z etykietami. Każdy węzeł jest powiązany z
+parametrami formatującymi, a pojedyncze wywołanie funkcji tworzy
+sformatowane wyjście.
 
 %package devel
 Summary:	easy-format binding for OCaml - development part
 Summary(pl.UTF-8):	Wiązania easy-format dla OCamla - cześć programistyczna
 Group:		Development/Libraries
 %requires_eq	ocaml
+%if %{with ocaml_opt}
 Requires:	%{name} = %{version}-%{release}
+%endif
 
 %description devel
+easy-format module offers a simplified interface to the Format module
+of the OCaml standard library. Input data must be converted into a
+tree using 3 kinds of nodes: atoms, lists and labelled nodes. Each
+node is bound to its own formatting parameters and a single function
+call produces the formatted output.
+
 This package contains files needed to develop OCaml programs using
-this library.
+easy-format library.
 
 %description devel -l pl.UTF-8
+Moduł easy-format oferuje uproszczony interfejs do modułu Format
+biblioteki standardowej OCamla. Dane wejściowe muszą być
+przekonwertowane do drzewa z użyciem trzech rodzajów węzłów: atomów,
+list oraz węzłów z etykietami. Każdy węzeł jest powiązany z
+parametrami formatującymi, a pojedyncze wywołanie funkcji tworzy
+sformatowane wyjście.
+
 Pakiet ten zawiera pliki niezbędne do tworzenia programów używających
-tej biblioteki.
+biblioteki easy-format.
 
 %prep
 %setup -q -n %{module}-%{version}
 
 %build
-%{__make} -j1 all %{?with_opt:opt} \
+%{__make} -j1 all %{?with_ocaml_opt:opt} \
 	CC="%{__cc} %{rpmcflags} -fPIC"
 
 %install
 rm -rf $RPM_BUILD_ROOT
 export OCAMLFIND_DESTDIR=$RPM_BUILD_ROOT%{_libdir}/ocaml
-install -d $OCAMLFIND_DESTDIR $OCAMLFIND_DESTDIR/stublibs
+install -d $OCAMLFIND_DESTDIR/stublibs
+
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 # move to dir pld ocamlfind looks
 install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/%{module}
-mv $OCAMLFIND_DESTDIR/%{module}/META \
+%{__mv} $OCAMLFIND_DESTDIR/%{module}/META \
 	$RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/%{module}
 cat <<EOF >> $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/%{module}/META
 directory="+%{module}"
@@ -69,18 +90,26 @@ EOF
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%if %{with ocaml_opt}
 %files
 %defattr(644,root,root,755)
 %dir %{_libdir}/ocaml/%{module}
 %{_libdir}/ocaml/%{module}/*.cmxs
 %{_libdir}/ocaml/site-lib/%{module}
+%endif
 
 %files devel
 %defattr(644,root,root,755)
 %doc README.md Changes LICENSE
-%{_libdir}/ocaml/%{module}/*.cm[xi]
+%if %{without ocaml_opt}
+%dir %{_libdir}/ocaml/%{module}
+%{_libdir}/ocaml/site-lib/%{module}
+%endif
+%{_libdir}/ocaml/%{module}/*.cmi
 %{_libdir}/ocaml/%{module}/*.cmo
+# doc?
 %{_libdir}/ocaml/%{module}/*.mli
-%if %{with opt}
+%if %{with ocaml_opt}
 %{_libdir}/ocaml/%{module}/*.o
+%{_libdir}/ocaml/%{module}/*.cmx
 %endif
