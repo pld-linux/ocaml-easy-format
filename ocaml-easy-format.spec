@@ -11,7 +11,7 @@ Summary:	easy(ier) pretty printing for OCaml
 Summary(pl.UTF-8):	Łatwiejsze ładne wypisywanie dla OCamla
 Name:		ocaml-%{module}
 Version:	1.0.2
-Release:	3
+Release:	4
 License:	BSD
 Group:		Libraries
 Source0:	http://mjambon.com/releases/easy-format/%{module}-%{version}.tar.gz
@@ -43,9 +43,7 @@ Summary:	easy-format binding for OCaml - development part
 Summary(pl.UTF-8):	Wiązania easy-format dla OCamla - cześć programistyczna
 Group:		Development/Libraries
 %requires_eq	ocaml
-%if %{with ocaml_opt}
 Requires:	%{name} = %{version}-%{release}
-%endif
 
 %description devel
 easy-format module offers a simplified interface to the Format module
@@ -94,26 +92,22 @@ EOF
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%if %{with ocaml_opt}
 %files
 %defattr(644,root,root,755)
 %dir %{_libdir}/ocaml/%{module}
-%{_libdir}/ocaml/%{module}/*.cmxs
-%{_libdir}/ocaml/site-lib/%{module}
+%{_libdir}/ocaml/%{module}/easy_format.cmo
+%if %{with ocaml_opt}
+%attr(755,root,root) %{_libdir}/ocaml/%{module}/easy_format.cmxs
 %endif
+%{_libdir}/ocaml/site-lib/%{module}
 
 %files devel
 %defattr(644,root,root,755)
 %doc README.md Changes LICENSE
-%if %{without ocaml_opt}
-%dir %{_libdir}/ocaml/%{module}
-%{_libdir}/ocaml/site-lib/%{module}
-%endif
-%{_libdir}/ocaml/%{module}/*.cmi
-%{_libdir}/ocaml/%{module}/*.cmo
+%{_libdir}/ocaml/%{module}/easy_format.cmi
 # doc?
-%{_libdir}/ocaml/%{module}/*.mli
+%{_libdir}/ocaml/%{module}/easy_format.mli
 %if %{with ocaml_opt}
-%{_libdir}/ocaml/%{module}/*.o
-%{_libdir}/ocaml/%{module}/*.cmx
+%{_libdir}/ocaml/%{module}/easy_format.o
+%{_libdir}/ocaml/%{module}/easy_format.cmx
 %endif
