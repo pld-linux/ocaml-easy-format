@@ -11,7 +11,7 @@ Summary:	easy(ier) pretty printing for OCaml
 Summary(pl.UTF-8):	Łatwiejsze ładne wypisywanie dla OCamla
 Name:		ocaml-%{module}
 Version:	1.0.2
-Release:	7
+Release:	8
 License:	BSD
 Group:		Libraries
 Source0:	http://mjambon.com/releases/easy-format/%{module}-%{version}.tar.gz
@@ -83,11 +83,11 @@ install -d $OCAMLFIND_DESTDIR/stublibs
 
 # move to dir pld ocamlfind looks
 install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/%{module}
-%{__mv} $OCAMLFIND_DESTDIR/%{module}/META \
-	$RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/%{module}
-cat <<EOF >> $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/%{module}/META
+cat <<EOF >> $OCAMLFIND_DESTDIR/%{module}/META
 directory="+%{module}"
 EOF
+ln -sr $OCAMLFIND_DESTDIR/%{module}/META \
+	$RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/%{module}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -95,6 +95,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %dir %{_libdir}/ocaml/%{module}
+%{_libdir}/ocaml/%{module}/META
 %{_libdir}/ocaml/%{module}/easy_format.cmo
 %if %{with ocaml_opt}
 %attr(755,root,root) %{_libdir}/ocaml/%{module}/easy_format.cmxs
