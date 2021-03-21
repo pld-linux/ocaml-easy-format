@@ -11,7 +11,7 @@ Summary:	easy(ier) pretty printing for OCaml
 Summary(pl.UTF-8):	Łatwiejsze ładne wypisywanie dla OCamla
 Name:		ocaml-%{module}
 Version:	1.0.2
-Release:	6
+Release:	7
 License:	BSD
 Group:		Libraries
 Source0:	http://mjambon.com/releases/easy-format/%{module}-%{version}.tar.gz
