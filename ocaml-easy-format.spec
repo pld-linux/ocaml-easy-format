@@ -45,7 +45,7 @@ sformatowane wyjście.
 
 %package devel
 Summary:	easy-format binding for OCaml - development part
-Summary(pl.UTF-8):	Wiązania easy-format dla OCamla - cześć programistyczna
+Summary(pl.UTF-8):	Wiązania easy-format dla OCamla - część programistyczna
 Group:		Development/Libraries
 %requires_eq	ocaml
 Requires:	%{name} = %{version}-%{release}
