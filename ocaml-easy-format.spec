@@ -73,7 +73,7 @@ biblioteki easy-format.
 
 %prep
 %setup -q -n %{module}-%{version}
-%patch0 -p1
+%patch -P0 -p1
 
 %build
 dune build @all %{?_smp_mflags} --display=verbose
